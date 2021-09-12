@@ -4,6 +4,7 @@ import { DesktopOutlined, PieChartOutlined, FileOutlined, TeamOutlined, UserOutl
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 import styles from './index.less'
+import { history } from 'umi';
 
 class SiderDemo extends PureComponent {
   state = {
@@ -14,19 +15,31 @@ class SiderDemo extends PureComponent {
     this.state.collapsed ? this.setState({collapsed: false}) : this.setState({collapsed: true})
   }
 
+  menuHandleClick(e:any) {
+    history.push(e.key)
+  }
+
   render() {
     const { collapsed } = this.state;
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse.bind(this)}>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={this.onCollapse.bind(this)}
+        >
           <div className={styles.logo}>react</div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1" icon={<PieChartOutlined />}>表格</Menu.Item>
+          <Menu
+            theme="dark"
+            defaultSelectedKeys={['tableList']}
+            mode="inline"
+            onClick={this.menuHandleClick.bind(this)}
+          >
+            <Menu.Item key="tableList" icon={<PieChartOutlined />}>表格</Menu.Item>
             <Menu.Item key="2" icon={<DesktopOutlined />}>表单</Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
+            <SubMenu key="sub1" icon={<UserOutlined />} title="TEST">
+              <Menu.Item key="test">test</Menu.Item>
+              <Menu.Item key="test2">test2</Menu.Item>
             </SubMenu>
             <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
               <Menu.Item key="6">Team 1</Menu.Item>
@@ -39,12 +52,11 @@ class SiderDemo extends PureComponent {
           <Header className={styles.siteLayoutBackground} style={{ padding: 0, background: '#001529' }} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-              <Breadcrumb.Item>Tom</Breadcrumb.Item>
+              <Breadcrumb.Item>快将尘埃掸落</Breadcrumb.Item>
+              <Breadcrumb.Item>别将你眼眸弄脏</Breadcrumb.Item>
             </Breadcrumb>
-            <div className={styles.siteLayoutBackground} style={{ padding: 24, minHeight: 360 }}>
-              Bill is a cat.
+            <div className={styles.siteLayoutBackground} style={{ minHeight: 800 }}>
+              { this.props.children }
             </div>
           </Content>
         </Layout>
